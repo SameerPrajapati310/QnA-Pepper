@@ -1,0 +1,18 @@
+Question,Answer
+What is the primary focus of DBMS?,"The primary focus of a Database Management System (DBMS) is to provide users with an abstract view of the data. This means that the system hides certain details of how the data is stored and maintained, making it easier for users to interact with the database without needing to know the intricate details of its storage and structure."
+Explain normalization.,"Normalization is a database optimization technique used to minimize redundancy in a database table. It helps to eliminate undesirable characteristics like insertion, update, and deletion anomalies. The main goal of normalization is to organize data in a way that avoids storing redundant data, which can lead to data inconsistencies and slow down database performance.
+
+Normalization involves dividing composite attributes into individual attributes or breaking down larger tables into smaller ones and linking them using relationships. By following specific rules and normal forms, such as 1NF, 2NF, 3NF, and BCNF, redundancy is reduced, and data consistency is maintained in the database.
+
+Overall, normalization helps to improve database organization, minimize data redundancy, and maintain data consistency in the database."
+What are the ACID properties?,"The ACID properties in database management stand for Atomicity, Consistency, Isolation, and Durability. 
+
+1. **Atomicity**: This property ensures that either all operations of a transaction are reflected properly in the database, or none are. In other words, a transaction is treated as a single unit of work that is either completed entirely or not at all.
+
+2. **Consistency**: This property ensures that the integrity constraints of the database are maintained before and after a transaction. The database must be consistent before and after the transaction is executed.
+
+3. **Isolation**: This property ensures that even though multiple transactions may execute concurrently, each transaction is unaware of other transactions executing concurrently. This means that each transaction is isolated from others and can run independently without interfering with each other.
+
+4. **Durability**: This property ensures that after a transaction completes successfully, the changes it has made to the database persist even in the case of system failures. Once a transaction is committed, its changes are permanent and will not be lost.
+
+These properties are essential for ensuring data integrity, reliability, and consistency in database systems."
