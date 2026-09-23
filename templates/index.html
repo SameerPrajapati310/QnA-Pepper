@@ -4,194 +4,1063 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Interview Question Creator</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/1da99de032.js" crossorigin="anonymous"></script>
+
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- SweetAlert -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+
     <style>
-        #result, #download {
+        body {
+            background: #f4f7fb;
+            color: #212529;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ================= HEADER ================= */
+
+        .navbar {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white !important;
+        }
+
+        .navbar-brand i {
+            margin-right: 8px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            background: linear-gradient(135deg, #eef2ff, #f8fafc);
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+        .hero-icon {
+            width: 75px;
+            height: 75px;
+            background: #4f46e5;
+            color: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.25);
+        }
+
+        .hero h1 {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: 10px auto;
+            color: #64748b;
+            font-size: 1.05rem;
+        }
+
+        /* ================= MAIN CARD ================= */
+
+        .main-container {
+            flex: 1;
+        }
+
+        .upload-card {
+            border: none;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+            padding: 35px;
+        }
+
+        .upload-title {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .upload-subtitle {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .upload-area {
+            border: 2px dashed #c7d2fe;
+            background: #f8faff;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.2s ease;
+        }
+
+        .upload-area:hover {
+            border-color: #6366f1;
+            background: #f1f3ff;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .page-info {
+            background: #eef2ff;
+            color: #4f46e5;
+            border: none;
+            font-size: 0.85rem;
+        }
+
+        .upload-btn {
+            background: #4f46e5;
+            border: none;
+            border-radius: 10px;
+            padding: 11px 25px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .upload-btn:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+        }
+
+        /* ================= FEATURES ================= */
+
+        .feature-card {
+            background: white;
+            border: none;
+            border-radius: 15px;
+            padding: 22px;
+            height: 100%;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.05);
+        }
+
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h6 {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* ================= RESULT ================= */
+
+        #result {
             display: none;
         }
-        .font-large {
-            font-size: 150px;
+
+        .result-card {
+            border: none;
+            border-radius: 18px;
+            background: white;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.07);
+        }
+
+        .result-header {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .pdf-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .status-card {
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-content i {
+            color: #4f46e5;
+            font-size: 65px;
+        }
+
+        .loader-content h5 {
+            margin-top: 20px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .loader-content p {
+            color: #64748b;
+        }
+
+        .download-content {
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #dcfce7;
+            color: #16a34a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            margin: 0 auto 20px;
+        }
+
+        .download-btn {
+            background: #16a34a;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-weight: 600;
+        }
+
+        .download-btn:hover {
+            background: #15803d;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #1e293b;
+            color: #cbd5e1;
+            margin-top: 70px;
+        }
+
+        footer h6 {
+            color: white;
+            font-weight: 700;
+        }
+
+        footer a {
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 18px;
+            margin-top: 25px;
+            font-size: 0.85rem;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 768px) {
+
+            .hero {
+                padding: 40px 15px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .upload-card {
+                padding: 25px;
+            }
+
+            .status-card {
+                min-height: 350px;
+            }
+
+            .pdf-container embed {
+                height: 450px !important;
+            }
         }
     </style>
 </head>
-<body class="bg-dark text-white">
-    <section>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12 text-center p-5">
-                    <h3>Interview Question Creator</h3>
-                </div>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+
+            <a class="navbar-brand" href="#">
+                <i class="fa-solid fa-graduation-cap"></i>
+                Interview Question Creator
+            </a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarContent">
+
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#upload">
+                            <i class="fa-solid fa-upload me-1"></i>
+                            Create Questions
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">
+                            <i class="fa-solid fa-circle-info me-1"></i>
+                            How It Works
+                        </a>
+                    </li>
+
+                </ul>
+
             </div>
         </div>
-    </section>
+    </nav>
+</header>
 
-    <section class="mb-4">
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-icon">
+        <i class="fa-solid fa-file-circle-question"></i>
+    </div>
+
+    <h1>Prepare Smarter for Your Interview</h1>
+
+    <p>
+        Upload your study material, notes, or resume and let our
+        AI-powered tool create interview questions to help you practice.
+    </p>
+
+</section>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main-container">
+
+    <!-- Upload Section -->
+
+    <section id="upload" class="py-5">
+
         <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card p-5 shadow border-0 m-3">
-                        <div class="mb-3">
-                            <label for="pdf-file" class="form-label">Upload your PDF</label>
-                            <div class="input-group mb-3">
-                                <input type="file" class="form-control" id="pdf-file" accept=".pdf">
-                                <label class="input-group-text" for="pdf-file">Max No. of Pages is 10</label>
+
+            <div class="row justify-content-center">
+
+                <div class="col-lg-8">
+
+                    <div class="upload-card">
+
+                        <div class="text-center mb-4">
+
+                            <h3 class="upload-title">
+                                <i class="fa-solid fa-cloud-arrow-up text-primary me-2"></i>
+                                Upload Your PDF
+                            </h3>
+
+                            <p class="upload-subtitle">
+                                Upload your study material and generate
+                                practice interview questions.
+                            </p>
+
+                        </div>
+
+
+                        <div class="upload-area">
+
+                            <label for="pdf-file" class="form-label">
+                                Select PDF
+                            </label>
+
+                            <div class="input-group">
+
+                                <input
+                                    type="file"
+                                    class="form-control"
+                                    id="pdf-file"
+                                    accept=".pdf">
+
+                                <span class="input-group-text page-info">
+                                    <i class="fa-solid fa-file-lines me-1"></i>
+                                    Max 10 pages
+                                </span>
+
                             </div>
+
+                            <div class="form-text mt-2">
+                                <i class="fa-solid fa-lightbulb text-warning me-1"></i>
+                                Tip: Upload your notes, syllabus, resume,
+                                or technical study material.
+                            </div>
+
                         </div>
-                        <div class="mb-3 text-end">
-                            <button type="button" id="upload-btn" class="btn btn-primary">Upload</button>
+
+
+                        <div class="text-center mt-4">
+
+                            <button
+                                type="button"
+                                id="upload-btn"
+                                class="btn btn-primary upload-btn">
+
+                                <i class="fa-solid fa-wand-magic-sparkles me-2"></i>
+                                Generate Questions
+
+                            </button>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
+
+            <!-- Features -->
+
+            <div id="how-it-works" class="row g-4 mt-4">
+
+                <div class="col-md-4">
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+
+                        <h6>1. Upload Material</h6>
+
+                        <p>
+                            Upload your PDF containing notes,
+                            resume, syllabus, or study material.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+
+                        <h6>2. AI Creates Questions</h6>
+
+                        <p>
+                            Our system analyzes your content and
+                            prepares relevant interview questions.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-download"></i>
+                        </div>
+
+                        <h6>3. Practice & Download</h6>
+
+                        <p>
+                            Download the generated questions and
+                            use them to prepare for your interview.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
+
     </section>
 
-    <section id="result">
+
+    <!-- ================= RESULTS ================= -->
+
+    <section id="result" class="pb-5">
+
         <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="card shadow border-0 p-3 ms-3">
-                        <embed id="view-pdf" src="" width="100%" height="600px" />
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="card shadow border-0 p-5 me-3">
-                        <div id="loader" class="text-center">
-                            <i class="fa-solid fa-spinner fa-spin-pulse font-large"></i>
+
+            <div class="row g-4">
+
+                <!-- PDF Preview -->
+
+                <div class="col-lg-7">
+
+                    <div class="result-card p-3">
+
+                        <div class="d-flex align-items-center mb-3">
+
+                            <i class="fa-solid fa-file-pdf text-danger fs-4 me-2"></i>
+
+                            <div>
+                                <div class="result-header">
+                                    Uploaded Document
+                                </div>
+
+                                <small class="text-muted">
+                                    Preview your uploaded PDF
+                                </small>
+                            </div>
+
                         </div>
-                        <div id="download" class="text-center">
-                            <a href="" id="download-btn" class="btn btn-md btn-success">Download Results</a>
+
+                        <div class="pdf-container">
+
+                            <embed
+                                id="view-pdf"
+                                src=""
+                                width="100%"
+                                height="600px">
+
                         </div>
+
                     </div>
+
                 </div>
+
+
+                <!-- Processing -->
+
+                <div class="col-lg-5">
+
+                    <div class="result-card status-card p-4">
+
+                        <!-- Loader -->
+
+                        <div id="loader" class="loader-content">
+
+                            <i class="fa-solid fa-brain fa-bounce"></i>
+
+                            <h5>
+                                Creating Your Questions...
+                            </h5>
+
+                            <p>
+                                Our AI is analyzing your document.
+                                This may take a moment.
+                            </p>
+
+                            <div class="spinner-border text-primary mt-2"
+                                 role="status">
+                            </div>
+
+                        </div>
+
+
+                        <!-- Download -->
+
+                        <div id="download" class="download-content">
+
+                            <div class="success-icon">
+
+                                <i class="fa-solid fa-check"></i>
+
+                            </div>
+
+                            <h4 class="fw-bold">
+                                You're Ready!
+                            </h4>
+
+                            <p class="text-muted">
+                                Your interview questions have
+                                been successfully generated.
+                            </p>
+
+                            <a
+                                href=""
+                                id="download-btn"
+                                class="btn btn-success download-btn">
+
+                                <i class="fa-solid fa-download me-2"></i>
+                                Download Questions
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
+
     </section>
 
-    <script>
-        let result = document.getElementById('result');
-        let loader = document.getElementById('loader');
-        let download = document.getElementById('download');
-        let viewPdf = document.getElementById('view-pdf');
-        let downloadBtn = document.getElementById('download-btn');
+</main>
 
-        $(document).ready(function () {
-            $("#upload-btn").click(async function (event) {
-                event.preventDefault();
 
-                const formData = new FormData();
-                const fileInput = document.getElementById('pdf-file');
-                var file = fileInput.files[0];
+<!-- ================= FOOTER ================= -->
 
-                if (!file) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops!!!',
-                        text: 'Please select a file to upload.',
-                    });
-                    return;
-                }
+<footer>
 
-                formData.append('pdf_file', file);
-                formData.append('filename', file.name);
+    <div class="container py-5">
 
-                let response = await fetch('/upload', {
-                    method: "POST",
-                    body: formData
+        <div class="row g-4">
+
+            <div class="col-md-6">
+
+                <h6>
+                    <i class="fa-solid fa-graduation-cap me-2"></i>
+                    Interview Question Creator
+                </h6>
+
+                <p class="mt-3 mb-0">
+                    A simple learning tool designed to help students
+                    turn their study material into useful interview
+                    practice questions.
+                </p>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <h6>Quick Links</h6>
+
+                <ul class="list-unstyled mt-3">
+
+                    <li class="mb-2">
+                        <a href="#upload">
+                            Upload PDF
+                        </a>
+                    </li>
+
+                    <li class="mb-2">
+                        <a href="#how-it-works">
+                            How It Works
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <h6>For Students</h6>
+
+                <ul class="list-unstyled mt-3">
+
+                    <li class="mb-2">
+                        <i class="fa-solid fa-check me-2"></i>
+                        Interview Preparation
+                    </li>
+
+                    <li class="mb-2">
+                        <i class="fa-solid fa-check me-2"></i>
+                        Quick Revision
+                    </li>
+
+                    <li class="mb-2">
+                        <i class="fa-solid fa-check me-2"></i>
+                        Practice Questions
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom text-center">
+
+            <p class="mb-0">
+                © 2026 Interview Question Creator.
+                Made for students who want to prepare smarter.
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- Bootstrap JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    let result = document.getElementById('result');
+    let loader = document.getElementById('loader');
+    let download = document.getElementById('download');
+    let viewPdf = document.getElementById('view-pdf');
+    let downloadBtn = document.getElementById('download-btn');
+
+
+    $(document).ready(function () {
+
+        $("#upload-btn").click(async function (event) {
+
+            event.preventDefault();
+
+            const formData = new FormData();
+
+            const fileInput = document.getElementById('pdf-file');
+
+            var file = fileInput.files[0];
+
+
+            if (!file) {
+
+                Swal.fire({
+
+                    icon: 'error',
+
+                    title: 'No PDF Selected',
+
+                    text: 'Please select a PDF file before continuing.',
+
+                    confirmButtonColor: "#4f46e5"
+
                 });
 
+                return;
+            }
+
+
+            // Check PDF
+
+            if (file.type !== "application/pdf") {
+
+                Swal.fire({
+
+                    icon: 'error',
+
+                    title: 'Invalid File',
+
+                    text: 'Please upload a PDF file.',
+
+                    confirmButtonColor: "#4f46e5"
+
+                });
+
+                return;
+            }
+
+
+            formData.append('pdf_file', file);
+
+            formData.append('filename', file.name);
+
+
+            // Change button state
+
+            const uploadBtn = document.getElementById('upload-btn');
+
+            uploadBtn.disabled = true;
+
+            uploadBtn.innerHTML = `
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Uploading...
+            `;
+
+
+            try {
+
+                let response = await fetch('/upload', {
+
+                    method: "POST",
+
+                    body: formData
+
+                });
+
+
                 processUploadResponse(response);
-            });
+
+
+            } catch (error) {
+
+                Swal.fire({
+
+                    icon: 'error',
+
+                    title: 'Something went wrong',
+
+                    text: 'Unable to upload your PDF. Please try again.',
+
+                    confirmButtonColor: "#4f46e5"
+
+                });
+
+                uploadBtn.disabled = false;
+
+                uploadBtn.innerHTML = `
+                    <i class="fa-solid fa-wand-magic-sparkles me-2"></i>
+                    Generate Questions
+                `;
+
+            }
+
         });
 
-        async function processUploadResponse(response) {
-            switch (response.status) {
-                case 400:
+    });
+
+
+    async function processUploadResponse(response) {
+
+        switch (response.status) {
+
+            case 400:
+
+                Swal.fire({
+
+                    icon: 'error',
+
+                    title: 'Upload Failed',
+
+                    text: "Sorry, couldn't upload your PDF!",
+
+                    confirmButtonColor: "#4f46e5"
+
+                }).then(function () {
+
+                    window.location.reload();
+
+                });
+
+                break;
+
+
+            case 200:
+
+                var json = await response.json();
+
+
+                if (json.msg === "error") {
+
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Oops!!!',
-                        text: "Sorry, couldn't upload your PDF!",
-                        confirmButtonColor: "#15011d"
+
+                        icon: 'warning',
+
+                        title: 'PDF Too Long',
+
+                        text: 'Maximum number of pages allowed is 10.',
+
+                        confirmButtonColor: "#4f46e5"
+
                     }).then(function () {
+
                         window.location.reload();
+
                     });
-                    break;
 
-                case 200:
-                    var json = await response.json();
-                    if (json.msg === "error") {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops!',
-                            text: 'Maximum number of pages exceeded!',
-                            confirmButtonColor: "#545454"
-                        }).then(function () {
-                            window.location.reload();
-                        });
-                    } else {
-                        result.style.display = "block";
-                        loader.style.display = "block";
-                        download.style.display = "none";
-                        viewPdf.setAttribute('src', "/" + json.pdf_filename);
+                }
 
-                        const formData = new FormData();
-                        formData.append('pdf_filename', json.pdf_filename);
+                else {
 
-                        fetch('/analyze', {
-                            method: "POST",
-                            body: formData
-                        }).then(processAnalyzeResponse);
-                    }
-                    break;
+                    result.style.display = "block";
 
-                default:
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops!!!',
-                        text: "There was an error (" + response.status + "). Please contact support.",
-                        confirmButtonColor: "#15011d"
-                    }).then(function () {
-                        window.location.reload();
+                    loader.style.display = "block";
+
+                    download.style.display = "none";
+
+
+                    viewPdf.setAttribute(
+                        'src',
+                        "/" + json.pdf_filename
+                    );
+
+
+                    // Scroll to results
+
+                    result.scrollIntoView({
+
+                        behavior: "smooth"
+
                     });
-                    break;
-            }
+
+
+                    const formData = new FormData();
+
+                    formData.append(
+                        'pdf_filename',
+                        json.pdf_filename
+                    );
+
+
+                    fetch('/analyze', {
+
+                        method: "POST",
+
+                        body: formData
+
+                    }).then(processAnalyzeResponse);
+
+                }
+
+                break;
+
+
+            default:
+
+                Swal.fire({
+
+                    icon: 'error',
+
+                    title: 'Upload Error',
+
+                    text:
+                        "There was an error (" +
+                        response.status +
+                        "). Please contact support.",
+
+                    confirmButtonColor: "#4f46e5"
+
+                });
+
+                break;
+
         }
 
-        async function processAnalyzeResponse(response) {
-            switch (response.status) {
-                case 400:
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops!!!',
-                        text: "Sorry, couldn't analyze your PDF!",
-                        confirmButtonColor: "#15011d"
-                    }).then(function () {
-                        window.location.reload();
-                    });
-                    break;
+    }
 
-                case 200:
-                    loader.style.display = "none";
-                    download.style.display = "block";
-                    var json = await response.json();
-                    downloadBtn.setAttribute('href', "/" + json.output_file);
-                    break;
 
-                default:
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops!!!',
-                        text: "There was an error (" + response.status + "). Please contact support.",
-                        confirmButtonColor: "#15011d"
-                    });
-                    break;
-            }
+    async function processAnalyzeResponse(response) {
+
+        switch (response.status) {
+
+            case 400:
+
+                Swal.fire({
+
+                    icon: 'error',
+
+                    title: 'Analysis Failed',
+
+                    text: "Sorry, couldn't analyze your PDF!",
+
+                    confirmButtonColor: "#4f46e5"
+
+                }).then(function () {
+
+                    window.location.reload();
+
+                });
+
+                break;
+
+
+            case 200:
+
+                loader.style.display = "none";
+
+                download.style.display = "block";
+
+
+                var json = await response.json();
+
+
+                downloadBtn.setAttribute(
+                    'href',
+                    "/" + json.output_file
+                );
+
+
+                break;
+
+
+            default:
+
+                Swal.fire({
+
+                    icon: 'error',
+
+                    title: 'Something Went Wrong',
+
+                    text:
+                        "There was an error (" +
+                        response.status +
+                        "). Please try again.",
+
+                    confirmButtonColor: "#4f46e5"
+
+                });
+
+                break;
+
         }
-    </script>
+
+    }
+
+</script>
+
 </body>
 </html>
